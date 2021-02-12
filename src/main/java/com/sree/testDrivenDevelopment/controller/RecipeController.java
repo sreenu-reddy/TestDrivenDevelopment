@@ -2,10 +2,12 @@ package com.sree.testDrivenDevelopment.controller;
 
 import com.sree.testDrivenDevelopment.Service.RecipeService;
 import com.sree.testDrivenDevelopment.command.RecipeCommand;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Controller
 public class RecipeController {
 
@@ -42,5 +44,12 @@ public class RecipeController {
         model.addAttribute("recipe",recipeService.findCommandById(Long.valueOf(updateRecipeId)));
         return "recipe/recipeForm";
 
+    }
+
+    @GetMapping("/recipe/{deleteId}/delete")
+    public String deleteRecipe(@PathVariable String deleteId){
+       log.debug("Deleted id :"+deleteId);
+       recipeService.deleteById(Long.valueOf(deleteId));
+       return "redirect:/";
     }
 }

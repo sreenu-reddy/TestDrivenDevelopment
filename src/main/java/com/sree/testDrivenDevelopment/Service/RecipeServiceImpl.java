@@ -5,7 +5,6 @@ import com.sree.testDrivenDevelopment.converter.RecipeCommandToRecipe;
 import com.sree.testDrivenDevelopment.converter.RecipeToRecipeCommand;
 import com.sree.testDrivenDevelopment.domain.Recipe;
 import com.sree.testDrivenDevelopment.repository.RecipeRepository;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,9 +56,16 @@ public class RecipeServiceImpl implements RecipeService{
         return toRecipeCommand.convert(savedRecipe);
     }
 
+    @Transactional
     @Override
     public RecipeCommand findCommandById(Long valueOf) {
         var returnedRecipe  =   recipeRepository.findById(valueOf);
         return returnedRecipe.map(toRecipeCommand::convert).orElse(null);
+    }
+
+    @Override
+    public void deleteById(Long deleteId) {
+        log.debug("Deleted Id: "+ deleteId);
+        recipeRepository.deleteById(deleteId);
     }
 }

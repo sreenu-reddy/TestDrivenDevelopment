@@ -115,4 +115,19 @@ class RecipeControllerTest {
         then(recipeService).should(times(2)).findCommandById(argumentCaptor.getValue());
         then(recipeService).shouldHaveNoMoreInteractions();
     }
+
+    @Test
+    void testDeleteRecipe() throws Exception{
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+//        then
+        mockMvc.perform(get("/recipe/1/delete"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"));
+
+        then(recipeService).should().deleteById(anyLong());
+        then(recipeService).shouldHaveNoMoreInteractions();
+
+    }
 }

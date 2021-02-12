@@ -131,4 +131,17 @@ class RecipeServiceImplTest {
         then(recipeRepository).should().save(any(Recipe.class));
     }
 
+    @Test
+    void testDeleteByID(){
+//        Given
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        recipeService.deleteById(1L);
+
+//        then
+        then(recipeRepository).should().deleteById(anyLong());
+        then(recipeRepository).shouldHaveNoMoreInteractions();
+
+    }
 }
