@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:11-browsers-legacy
+      - image: circleci/openjdk:11-jdk
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -32,6 +32,15 @@ jobs:
 
       - run: mvn install -DskipTests
       - run: mvn dependency:go-offline
+      - run:
+          name: Analyze on SonarCloud
+          command: mvn verify sonar:sonar
+
+      workflows:
+        main:
+          jobs:
+            - build:
+                context: SonarCloud
 
       - save_cache:
           paths:
