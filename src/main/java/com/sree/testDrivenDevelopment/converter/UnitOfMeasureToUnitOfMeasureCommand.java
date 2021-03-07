@@ -13,7 +13,10 @@ public class UnitOfMeasureToUnitOfMeasureCommand implements Converter<UnitOfMeas
     @Synchronized
     @Nullable
     @Override
-    public UnitOfMeasureCommand convert( @NonNull UnitOfMeasure unitOfMeasure) {
+    public UnitOfMeasureCommand convert(UnitOfMeasure unitOfMeasure) {
+        if (unitOfMeasure==null){
+            return null;
+        }
 
        final UnitOfMeasureCommand unitOfMeasureCommand = new UnitOfMeasureCommand();
           unitOfMeasureCommand.setId(unitOfMeasure.getId());

@@ -12,19 +12,22 @@ import org.springframework.stereotype.Component;
 public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
 
     private final IngredientToIngredientCommand toIngredientCommand;
-    private final CategoryToCategoryCommand toCategoryCommand;
     private final NotesToNotesCommand toNotesCommand;
 
-    public RecipeToRecipeCommand(IngredientToIngredientCommand toIngredientCommand, CategoryToCategoryCommand toCategoryCommand, NotesToNotesCommand toNotesCommand) {
+    public RecipeToRecipeCommand(IngredientToIngredientCommand toIngredientCommand,  NotesToNotesCommand toNotesCommand) {
         this.toIngredientCommand = toIngredientCommand;
-        this.toCategoryCommand = toCategoryCommand;
         this.toNotesCommand = toNotesCommand;
     }
 
     @Synchronized
-
+    @Nullable
     @Override
-    public RecipeCommand convert( @NonNull Recipe recipe) {
+    public RecipeCommand convert(Recipe recipe) {
+        if (recipe==null){
+            return null;
+        }
+
+
          final  RecipeCommand recipeCommand = new RecipeCommand();
            recipeCommand.setId(recipe.getId());
            recipeCommand.setCookTime(recipe.getCookTime());
@@ -36,9 +39,6 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
            recipeCommand.setServings(recipe.getServings());
            recipeCommand.setUrl(recipe.getUrl());
            recipeCommand.setSource(recipe.getSource());
-         if(recipe.getCategorySet()!=null&&recipe.getCategorySet().size()>0){
-             recipe.getCategorySet().forEach(category -> recipeCommand.getCategorySet().add(toCategoryCommand.convert(category)));
-         }
          if (recipe.getIngredientSet()!=null&& recipe.getIngredientSet().size()>0){
              recipe.getIngredientSet().forEach(ingredient -> recipeCommand.getIngredientSet().add(toIngredientCommand.convert(ingredient)));
          }

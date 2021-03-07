@@ -25,6 +25,11 @@ class NotesCommandToNotesTest {
     }
 
     @Test
+    void testNullObject(){
+        assertNull(toNotes.convert(null));
+    }
+
+    @Test
     void convert() {
 //        Given
         NotesCommand notesCommand = new NotesCommand();

@@ -5,6 +5,7 @@ import com.sree.testDrivenDevelopment.command.RecipeCommand;
 import com.sree.testDrivenDevelopment.converter.RecipeCommandToRecipe;
 import com.sree.testDrivenDevelopment.converter.RecipeToRecipeCommand;
 import com.sree.testDrivenDevelopment.domain.Recipe;
+import com.sree.testDrivenDevelopment.exceptions.NotFoundException;
 import com.sree.testDrivenDevelopment.repository.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,14 +33,12 @@ class RecipeServiceImplTest {
 
     @Mock
     RecipeRepository recipeRepository;
-
     @Mock
     RecipeCommandToRecipe toRecipe;
-
     @Mock
     RecipeToRecipeCommand toRecipeCommand;
 
-    RecipeServiceImpl recipeService;
+    RecipeService recipeService;
 
     @Captor
     ArgumentCaptor<Long> argumentCaptor;
@@ -86,9 +85,12 @@ class RecipeServiceImplTest {
         then(recipeRepository).should().findById(anyLong());
         then(recipeRepository).shouldHaveNoMoreInteractions();
     }
-    @Test
-    void getRecipeByIdEmpty(){
-//        TODO
+    @DisplayName("Required recipe not found test")
+    @Test()
+    void testGetRecipeByIdWithNotExist(){
+        Optional<Recipe> optionalRecipe = Optional.empty();
+        given(recipeRepository.findById(anyLong())).willReturn(optionalRecipe);
+        assertThrows(NotFoundException.class,()->recipeService.findById(1L),"should throw RunTEx");
     }
 
     @Test
@@ -100,7 +102,7 @@ class RecipeServiceImplTest {
         given(recipeRepository.findById(argumentCaptor.capture())).willReturn(optionalRecipe);
         RecipeCommand command = new RecipeCommand();
         command.setId(1L);
-        given(toRecipeCommand.convert(any())).willReturn(command);
+        given(toRecipeCommand.convert(any(Recipe.class))).willReturn(command);
 
 //        when
        RecipeCommand command1 =recipeService.findCommandById(1L);
@@ -109,10 +111,21 @@ class RecipeServiceImplTest {
         assertEquals(1,command1.getId());
         then(recipeRepository).should().findById(argumentCaptor.getValue());
         then(recipeRepository).shouldHaveNoMoreInteractions();
+        then(toRecipeCommand).should().convert(any(Recipe.class));
+        then(toRecipeCommand).shouldHaveNoMoreInteractions();
     }
 
     @Test
+    void testFindCommandByNotExistId(){
+        assertThrows(NotFoundException.class,()->recipeService.findCommandById(1L));
+    }
+
+
+    @Test
     void testSaveRecipeCommand(){
+//        Here we can even test all the properties of the recipe but i just matched with id's of
+//        the recipe and recipeCommand.
+
 //        Given
         RecipeCommand command = new RecipeCommand();
         command.setId(1L);
@@ -128,15 +141,27 @@ class RecipeServiceImplTest {
 
 //        then
         assertNotNull(command1,"null Recipe Command returned ");
+        assertEquals(recipe.getId(),command1.getId());
         then(recipeRepository).should().save(any(Recipe.class));
+        then(recipeRepository).shouldHaveNoMoreInteractions();
+        then(toRecipeCommand).should().convert(any(Recipe.class));
+        then(toRecipe).should().convert(any(RecipeCommand.class));
+        then(toRecipeCommand).shouldHaveNoMoreInteractions();
+        then(toRecipe).shouldHaveNoMoreInteractions();
     }
+
+    @Test
+    void testSaveRecipeCommandIsNull(){
+        assertThrows(NullPointerException.class,()->recipeService.saveRecipeCommand(null));
+    }
+
 
     @Test
     void testDeleteByID(){
 //        Given
         Recipe recipe = new Recipe();
         recipe.setId(1L);
-
+//         when
         recipeService.deleteById(1L);
 
 //        then

@@ -24,6 +24,9 @@
    <div class="row mb-5">
        <div class="col-md-8 offset-md-2">
            <form th:object="${recipe}" th:action="@{/recipe/}" method="post">
+               <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                   <p>Please correct the following errors</p>
+               </div>
                <input type="hidden" th:field="*{id}"/>
              <div class="card-group">
                  <div class="card border border-info ">
@@ -31,36 +34,37 @@
                      <div class="card-body">
                          <div class="row" >
                              <div class="col-md-4 form-group">
-                                 <label>Recipe Description:</label>
-                                 <input type="text" class="form-control border border-dark"  th:field="*{description}"/>
+                                 <label >Recipe Description:</label>
+                                 <input type="text" class="form-control border border-dark "  th:field="*{description}"
+                                        th:class="${#fields.hasErrors('description')}?'is-invalid form-control':'form-control border border-dark'"/>
+                                 <span class="invalid-feedback" th:if="${#fields.hasErrors('description')}" >
+                                     <ul>
+                                         <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                                     </ul>
+                                 </span>
                              </div>
                          </div>
                          <div class="row">
-                             <div class="col-md-3 form-group">
-                                 <label>Categories:</label>
-                             </div>
-                             <div class="col-md-9 form-group">
-                                 <div class="form-check">
-                                     <label class="form-check-label">
-                                         <input class="form-check-input " type="checkbox" value="" /> cat 1
-                                     </label>
-                                 </div>
-                                 <div class="form-check" th:remove="all">
-                                     <label class="form-check-label">
-                                         <input type="checkbox" class="form-check-input" value=""/>Cat 2
-                                     </label>
-                                 </div>
-                             </div>
+                             <div class="col-md-4 form-group">
+                                 <label>PrepTime:</label>
+                                 <input type="text" class="form-control border border-dark" th:field="*{prepTime}"
+                                        th:class="${#fields.hasErrors('prepTime')}?'is-invalid form-control':'form-control border border-dark'"/>
+                                 <span class="invalid-feedback" th:if="${#fields.hasErrors('prepTime')}" >
+                                     <ul>
+                                         <li th:each="err : ${#fields.errors('prepTime')}" th:text="${err}"></li>
 
-                         </div>
-                         <div class="row">
-                             <div class="col-md-4 form-group">
-                                 <label>Prep Time:</label>
-                                 <input type="text" class="form-control border border-dark" th:field="*{prepTime}"/>
+                                     </ul>
+                                 </span>
                              </div>
-                             <div class="col-md-4 form-group">
-                                 <label>Cooktime:</label>
-                                 <input type="text" class="form-control border border-dark" th:field="*{cookTime}"/>
+                             <div class="col-md-4 form-group" >
+                                 <label>CookTime:</label>
+                                 <input type="text" class="form-control border border-dark" th:field="*{cookTime}"
+                                        th:class="${#fields.hasErrors('cookTime')}?'is-invalid form-control':'form-control border border-dark'"/>
+                                 <span class="invalid-feedback" th:if="${#fields.hasErrors('cookTime')}" >
+                                     <ul>
+                                         <li th:each="err : ${#fields.errors('cookTime')}" th:text="${err}"></li>
+                                     </ul>
+                                 </span>
                              </div>
                              <div class="col-md-4 form-group">
                                  <label>Difficulty:</label>
@@ -82,7 +86,13 @@
                          <div class="row">
                              <div class="col-md-4 form-group">
                                  <label>Servings:</label>
-                                 <input type="text" class="form-control border border-dark" th:field="*{servings}"/>
+                                 <input type="text" class="form-control border border-dark"
+                                        th:field="*{servings}" th:class="${#fields.hasErrors('servings')}?'is-invalid form-control':'form-control border border-dark'"/>
+                                 <span class="invalid-feedback" th:if="${#fields.hasErrors('servings')}" >
+                                     <ul>
+                                         <li th:each="err : ${#fields.errors('servings')}" th:text="${err}"></li>
+                                     </ul>
+                                 </span>
                              </div>
                              <div class="col-md-4 form-group">
                                  <label>Source:</label>
@@ -90,7 +100,13 @@
                              </div>
                              <div class="col-md-4 form-group">
                                  <label>URL:</label>
-                                 <input type="text" class="form-control border border-dark" th:field="*{url}"/>
+                                 <input type="text" class="form-control border border-dark" th:field="*{url}"
+                                        th:class="${#fields.hasErrors('url')}?'is-invalid form-control':'form-control border border-dark'"/>
+                                 <span class="invalid-feedback" th:if="${#fields.hasErrors('url')}" >
+                                     <ul>
+                                         <li th:each="err : ${#fields.errors('url')}" th:text="${err}"></li>
+                                     </ul>
+                                 </span>
                              </div>
                          </div>
 
@@ -105,7 +121,7 @@
                                <div class="text-capitalize">Ingredients</div>
                            </div>
                            <div class="col-md-1">
-                               <a class="btn btn-light" href="#" role="button">Edit</a>
+                               <a class="btn btn-light" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" role="button">View</a>
                            </div>
                        </div>
                    </div>
@@ -132,7 +148,16 @@
                    <div class="card-body">
                        <div class="row">
                            <div class="col-md-12 form-group">
-                               <textarea class="form-control" rows="3" th:field="*{direction}"></textarea></div>
+                               <textarea class="form-control" rows="3" th:field="*{direction}"
+                                         th:class="${#fields.hasErrors('direction')}?'is-invalid form-control':'form-control'">
+
+                               </textarea>
+                               <span class="invalid-feedback">
+                                     <ul>
+                                         <li th:each="err : ${#fields.errors('direction')}" th:text="${err}"></li>
+                                     </ul>
+                                 </span>
+                           </div>
                        </div>
                    </div>
                </div>

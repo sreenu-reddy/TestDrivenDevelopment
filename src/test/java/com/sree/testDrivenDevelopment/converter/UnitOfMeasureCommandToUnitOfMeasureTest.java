@@ -25,6 +25,11 @@ class UnitOfMeasureCommandToUnitOfMeasureTest {
     }
 
     @Test
+    void testNullObject(){
+        assertNull(toUnitOfMeasure.convert(null));
+    }
+
+    @Test
     void convert() {
 //        given
         UnitOfMeasureCommand command = new UnitOfMeasureCommand();

@@ -27,12 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 class IndexControllerTest {
+    IndexController controller;
 
     @Mock
     RecipeService recipeService;
-
-    IndexController controller;
-
     @Mock
     Model model;
 
@@ -41,6 +39,7 @@ class IndexControllerTest {
 
     @BeforeEach
     void setUp() {
+
         controller =new IndexController(recipeService);
     }
 

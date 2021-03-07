@@ -12,8 +12,13 @@ import org.springframework.stereotype.Component;
 public class UnitOfMeasureCommandToUnitOfMeasure implements Converter<UnitOfMeasureCommand, UnitOfMeasure> {
 
     @Synchronized
+    @Nullable
     @Override
-    public UnitOfMeasure convert( @NonNull UnitOfMeasureCommand unitOfMeasureCommand) {
+    public UnitOfMeasure convert(UnitOfMeasureCommand unitOfMeasureCommand) {
+        if (unitOfMeasureCommand==null){
+            return null;
+        }
+
         final UnitOfMeasure unitOfMeasure = new UnitOfMeasure();
         unitOfMeasure.setId(unitOfMeasureCommand.getId());
         unitOfMeasure.setUom(unitOfMeasureCommand.getUom());

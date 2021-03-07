@@ -11,18 +11,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class RecipeCommandToRecipe implements Converter<RecipeCommand, Recipe> {
     private final NotesCommandToNotes toNotes;
-    private final CategoryCommandToCategory toCategory;
     private final IngredientCommandToIngredient toIngredient;
 
-    public RecipeCommandToRecipe(NotesCommandToNotes toNotes, CategoryCommandToCategory toCategory, IngredientCommandToIngredient toIngredient) {
+    public RecipeCommandToRecipe(NotesCommandToNotes toNotes, IngredientCommandToIngredient toIngredient) {
         this.toNotes = toNotes;
-        this.toCategory = toCategory;
         this.toIngredient = toIngredient;
     }
 
     @Synchronized
+    @Nullable
     @Override
-    public Recipe convert( @NonNull RecipeCommand recipeCommand) {
+    public Recipe convert(RecipeCommand recipeCommand) {
+
+        if (recipeCommand==null){
+            return null;
+        }
+
+
         final Recipe recipe = new Recipe();
          recipe.setId(recipeCommand.getId());
          recipe.setCookTime(recipeCommand.getCookTime());
@@ -41,10 +46,7 @@ public class RecipeCommandToRecipe implements Converter<RecipeCommand, Recipe> {
              );
 
          }
-         if (recipeCommand.getCategorySet()!=null&&recipeCommand.getCategorySet().size()>0){
-             recipeCommand.getCategorySet().forEach(
-                     categoryCommand -> recipe.getCategorySet().add(toCategory.convert(categoryCommand))
-             );
-         }
-         return recipe; }
+
+         return recipe;
+    }
 }

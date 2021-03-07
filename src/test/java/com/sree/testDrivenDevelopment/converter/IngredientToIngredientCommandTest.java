@@ -26,11 +26,13 @@ class IngredientToIngredientCommandTest {
 
     @Test
     void testEmptyObject(){
-        Ingredient ingredient = new Ingredient();
-        ingredient.setUnitOfMeasure(new UnitOfMeasure());
-        assertNotNull(ingredient);
+        assertNotNull(toIngredientCommand.convert(new Ingredient()));
     }
 
+    @Test
+    void testNullObject(){
+        toIngredientCommand.convert(null);
+    }
 
     @Test
     void convert() {

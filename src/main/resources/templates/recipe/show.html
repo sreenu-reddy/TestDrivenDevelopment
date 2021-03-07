@@ -33,18 +33,6 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
-                                <h5>Categories:</h5>
-                            </div>
-                            <div class="col-md-9">
-                                <ul>
-                                    <li th:remove="all">cat one</li>
-                                    <li th:remove="all">cat two</li>
-                                    <li th:each="category:${recipe.categorySet}" th:text="${category.categoryName}">cat three</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
                                 <h5 >Prep Time:</h5>
                             </div>
                             <div class="col-md-3">
@@ -98,7 +86,7 @@
                 <div class="card-header bg-info text-white ">
                     <div class="row">
                         <div class="col-md-11 ">
-                            <h1 class="panel-title h4">Ingredients</h1>
+                            <h1 class="h4">Ingredients</h1>
                         </div>
                         <div class="col-md-1">
                             <a class="btn btn-light" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" role="button">View</a>

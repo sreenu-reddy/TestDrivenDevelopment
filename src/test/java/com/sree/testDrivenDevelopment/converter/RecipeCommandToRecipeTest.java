@@ -19,8 +19,6 @@ class RecipeCommandToRecipeTest {
     public static final Integer SERVINGS = Integer.valueOf("3");
     public static final String SOURCE = "Source";
     public static final String URL = "Some URL";
-    public static final Long CAT_ID_1 = 1L;
-    public static final Long CAT_ID2 = 2L;
     public static final Long INGRED_ID_1 = 3L;
     public static final Long INGRED_ID_2 = 4L;
     public static final Long NOTES_ID = 9L;
@@ -29,24 +27,30 @@ class RecipeCommandToRecipeTest {
 
     @BeforeEach
     void setUp() {
-        toRecipe = new RecipeCommandToRecipe(new NotesCommandToNotes(),new CategoryCommandToCategory(),
+        toRecipe = new RecipeCommandToRecipe(new NotesCommandToNotes(),
                 new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure()));
     }
 
+    @Test
+    void testNullObject(){
+        assertNull(toRecipe.convert(null));
+    }
 
     @Test
     void testEmptyObject(){
-        RecipeCommand command = new RecipeCommand();
-        command.setNotes(new NotesCommand());
-        Category categoryCommand = new Category();
-        categoryCommand.setId(1L);
-        command.getCategorySet().add(categoryCommand);
-        IngredientCommand ingredientCommand = new IngredientCommand();
-        ingredientCommand.setId(1L);
-        ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
-        command.getIngredientSet().add(ingredientCommand);
 
-        assertNotNull(command);
+        assertNotNull(toRecipe.convert(new RecipeCommand()));
+//        RecipeCommand command = new RecipeCommand();
+//        command.setNotes(new NotesCommand());
+//        CategoryCommand categoryCommand = new CategoryCommand();
+//        categoryCommand.setId(1L);
+//        command.getCategorySet().add(categoryCommand);
+//        IngredientCommand ingredientCommand = new IngredientCommand();
+//        ingredientCommand.setId(1L);
+//        ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
+//        command.getIngredientSet().add(ingredientCommand);
+//
+//        assertNotNull(command);
     }
 
 
@@ -69,16 +73,6 @@ class RecipeCommandToRecipeTest {
         notes.setId(NOTES_ID);
 
         recipeCommand.setNotes(notes);
-
-        Category category = new Category();
-        category.setId(CAT_ID_1);
-
-        Category category2 = new Category();
-        category2.setId(CAT_ID2);
-
-        recipeCommand.getCategorySet().add(category);
-        recipeCommand.getCategorySet().add(category2);
-
         IngredientCommand ingredient = new IngredientCommand();
         ingredient.setId(INGRED_ID_1);
         ingredient.setUnitOfMeasure(new UnitOfMeasureCommand());
@@ -107,7 +101,6 @@ class RecipeCommandToRecipeTest {
         assertEquals(SOURCE, recipe.getSource());
         assertEquals(URL, recipe.getUrl());
         assertEquals(NOTES_ID, recipe.getNotes().getId());
-        assertEquals(2, recipe.getCategorySet().size());
         assertEquals(2, recipe.getIngredientSet().size());
 
 

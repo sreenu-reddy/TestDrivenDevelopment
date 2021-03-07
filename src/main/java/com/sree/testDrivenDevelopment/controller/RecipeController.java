@@ -5,7 +5,11 @@ import com.sree.testDrivenDevelopment.command.RecipeCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
 
 @Slf4j
 @Controller
@@ -13,8 +17,11 @@ public class RecipeController {
 
   private final RecipeService recipeService;
 
+
+
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
+
     }
 
     @GetMapping("/recipe/{recipeId}/show")
@@ -32,7 +39,13 @@ public class RecipeController {
     }
 
     @PostMapping("recipe")
-    public String saveOrUpdate(@ModelAttribute RecipeCommand command){
+    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand command, BindingResult bindingResult){
+
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors()
+                    .forEach(objectError -> log.error(objectError.toString()));
+            return "recipe/recipeForm";
+        }
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
 
         return "redirect:/recipe/"+ savedCommand.getId() + "/show";
@@ -41,8 +54,10 @@ public class RecipeController {
     @GetMapping("/recipe/{updateRecipeId}/update")
     public String updateRecipe(@PathVariable String updateRecipeId,Model model){
 
+        log.debug("updated recipe iD: "+updateRecipeId);
+
         model.addAttribute("recipe",recipeService.findCommandById(Long.valueOf(updateRecipeId)));
-        return "recipe/recipeForm";
+        return "recipe/updateRecipe";
 
     }
 
@@ -52,4 +67,7 @@ public class RecipeController {
        recipeService.deleteById(Long.valueOf(deleteId));
        return "redirect:/";
     }
+
+
+
 }
