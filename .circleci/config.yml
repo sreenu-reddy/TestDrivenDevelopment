@@ -36,12 +36,6 @@ jobs:
           name: Analyze on SonarCloud
           command: mvn verify sonar:sonar
 
-      workflows:
-        main:
-          jobs:
-            - build:
-                context: SonarCloud
-
       - save_cache:
           paths:
             - ~/.m2
@@ -49,3 +43,8 @@ jobs:
 
       # run tests! and gen code coverage
       - run: mvn integration-test
+workflows:
+  main:
+    jobs:
+      - build:
+          context: SonarCloud
