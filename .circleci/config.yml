@@ -52,7 +52,9 @@ jobs:
           command: mvn verify sonar:sonar
 
   workflows:
-    main:
+    version: 2
+    one_and_two:
       jobs:
-        - build:
+        - one:
+        - two:
             context: SonarCloud
