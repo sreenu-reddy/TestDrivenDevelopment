@@ -4,10 +4,10 @@
 #
 version: 2
 jobs:
-  build:
+  one:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:11-jdk
+      - image: 'circleci/openjdk:11-jdk'
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -41,3 +41,19 @@ jobs:
 
       # run tests! and gen code coverage
       - run: mvn integration-test
+  version: 2.1
+
+  two:
+    docker:
+      - image: 'circleci/openjdk:11-jdk'
+    steps:
+      - checkout
+      - run:
+          name: Analyze on SonarCloud
+          command: mvn verify sonar:sonar
+
+  workflows:
+    main:
+      jobs:
+        - build:
+            context: SonarCloud
