@@ -2,7 +2,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2
+version: 2.1
 jobs:
   one:
     docker:
@@ -52,7 +52,7 @@ jobs:
           command: mvn verify sonar:sonar
 
   workflows:
-    version: 2
+    version: 2.1
     one_and_two:
       jobs:
         - one:
