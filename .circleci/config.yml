@@ -55,6 +55,8 @@ jobs:
     version: 2.1
     one_and_two:
       jobs:
-        - one:
+        - one
         - two:
+            requires:
+              - one
             context: SonarCloud
