@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/sreenu-reddy/TestDrivenDevelopment.svg?style=svg)](https://circleci.com/gh/sreenu-reddy/TestDrivenDevelopment)
+[![Coverage Status](https://coveralls.io/repos/github/sreenu-reddy/TestDrivenDevelopment/badge.svg)](https://coveralls.io/github/sreenu-reddy/TestDrivenDevelopment), [![Build Status](https://travis-ci.com/sreenu-reddy/TestDrivenDevelopment.svg?branch=master)](https://travis-ci.com/sreenu-reddy/TestDrivenDevelopment)
 # Test Driven Development web project 
 
 In this I am using the following technologies to design my web application
