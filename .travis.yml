@@ -12,4 +12,4 @@ cache:
     - $HOME/.m2
 
 script:
-  - mvn clean verify jacoco:report
+  - mvn clean verify jacoco:report coveralls:report
