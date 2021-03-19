@@ -25,4 +25,4 @@ cache:
     - $HOME/.sonar/cache
 
 script:
-  - mvn clean verify jacoco:report coveralls:report sonar:sonar
+  - mvn clean verify jacoco:report  sonar:sonar
