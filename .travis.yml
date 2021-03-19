@@ -1,6 +1,18 @@
 language: java
 
+dist: xenial
+
 jdk: openjdk11
+
+services:
+  - xvfb
+
+addons:
+  sonarcloud:
+    organization: "sreenu-reddy-1"
+    token:
+      secure: $SONAR_TOKEN
+
 
 after_success:
   - mvn clean test jacoco:report coveralls:repoprt
@@ -10,6 +22,7 @@ install: true
 cache:
   directories:
     - $HOME/.m2
+    - $HOME/.sonar/cache
 
 script:
-  - mvn clean verify jacoco:report coveralls:report
+  - mvn clean verify jacoco:report coveralls:report sonar:sonar
