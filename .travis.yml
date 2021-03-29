@@ -22,7 +22,7 @@ install: true
 cache:
   directories:
     - $HOME/.m2
-    - $HOME/.sonar/cache
+
 
 script:
-  - mvn clean verify jacoco:report  sonar:sonar
+  - mvn clean verify jacoco:report coveralls:report

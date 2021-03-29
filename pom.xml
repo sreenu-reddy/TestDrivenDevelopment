@@ -27,18 +27,18 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <sonar.coverage.exclusions>
-            **/model/*.*,
-            **/TestDrivenDevelopmentApplication.*
-        </sonar.coverage.exclusions>
-        <sonar.junit.reportPaths>
-            ${project.build.directory}/surefire-reports,
-            ${project.build.directory}/failsafe-reports
-        </sonar.junit.reportPaths>
+<!--        <sonar.coverage.exclusions>-->
+<!--            **/model/*.*,-->
+<!--            **/TestDrivenDevelopmentApplication.*-->
+<!--        </sonar.coverage.exclusions>-->
+<!--        <sonar.junit.reportPaths>-->
+<!--            ${project.build.directory}/surefire-reports,-->
+<!--            ${project.build.directory}/failsafe-reports-->
+<!--        </sonar.junit.reportPaths>-->
 
-        <sonar.projectKey>sreenu-reddy_TestDrivenDevelopment</sonar.projectKey>
-        <sonar.organization>sreenu-reddy-1</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+<!--        <sonar.projectKey>sreenu-reddy_TestDrivenDevelopment</sonar.projectKey>-->
+<!--        <sonar.organization>sreenu-reddy-1</sonar.organization>-->
+<!--        <sonar.host.url>https://sonarcloud.io</sonar.host.url>-->
     </properties>
 
     <dependencies>
@@ -190,6 +190,45 @@
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>3.7.0.1746</version>
             </plugin>
+
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.4.9</version>
+                <executions>
+                    <execution>
+                        <id>pit-report</id>
+                        <!-- optional, this example attached the goal into mvn test phase -->
+                        <phase>test</phase>
+                        <goals>
+                            <goal>mutationCoverage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>0.8</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <targetClasses>
+                        <param>com.sree.testDrivenDevelopment.*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>com.sree.testDrivenDevelopment.*</param>
+                    </targetTests>
+                    <mutators>
+                        <mutator>DEFAULTS</mutator>
+                    </mutators>
+                    <mutationThreshold>10</mutationThreshold>
+                    <outputFormats>
+                        <outputFormat>XML</outputFormat>
+                        <outputFormat>HTML</outputFormat>
+                    </outputFormats>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <reporting>
@@ -198,6 +237,28 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.6</version>
+            </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.6.3</version>
+                <configuration>
+                    <skip>false</skip>
+                    <reportsDirectory>${project.build.directory}/pit-custom-output-dir</reportsDirectory>
+                    <sourceDataFormats>
+                        <sourceDataFormat>HTML</sourceDataFormat>
+                    </sourceDataFormats>
+                    <siteReportName>my-pit-report-name</siteReportName>
+                    <siteReportDescription>my pit report custom description</siteReportDescription>
+                    <siteReportDirectory>pit-custom-site-directory</siteReportDirectory>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
         </plugins>
 
