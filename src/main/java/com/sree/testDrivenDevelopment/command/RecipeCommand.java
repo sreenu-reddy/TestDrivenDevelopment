@@ -18,7 +18,7 @@ public class RecipeCommand {
 
     @NotEmpty()
     @Size(min = 3,max = 255)
-    private String[] description;
+    private String description;
 
     @Min(1)
     @Max(999)
