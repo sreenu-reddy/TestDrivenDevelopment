@@ -5,7 +5,7 @@ services:
 - xvfb
 addons:
   sonarcloud:
-    organization: sreenu-reddy-1
+    organization: "sreenu-reddy"
     token:
       secure: "Q87ifwbtkrJOt3wKMMt0Xq5cZlAXaY6R/Ha9gPv4qqeRirlpl6cm4yMrClDvtJPsq+2Ry/iR8zBOiVM8F6bk9ZDDA3lNwvcgzCwf774ZL/gS5fUTJf1EMVt5NeqFviYBd/iRq12ZX+C51FsuAJbkg1B4Z7WVNzkJPhyIxdVc1fqYcuqbyhEKMHE2y5w0ITmCiNuBet+UPT3tPPcCqMAbgp7lFdkwKkID/aqrGCpyqHnfTyHFwG5xbe6c4nqPeynhxPud82zrbEY2oNdgbAatI5uijw7I/m919rsybow+dIJ7Ih9FY5DhUj9lWkSKR5durz2hm+ZUKPZbt2JayEpKZUTGXXFhT6ZUOVxdEVGjkiV7T9H3eFAWFJ6pOK7iX2LE6l4DmSz1yP6DoYI1DPyyQ+njVGYvg+agfNzj2GGNVQNPzDK35X2eHln9zj+8CVH5WRUfeWDuMeXyLy4abQz/x6ukKlCuRoI777x8a8FVhvgDS85Vfr3VB0lMqkh3CLltk3iLxvCDaB3O/j8eu8Gr/9+1lMH5E8/dO+fv58ysG4tT3RrMso32EZxg6zDPmW48S0IjGrpan807m5Y44QPRE3mQh2FMSnRWjBKY3W3MWutu3Sq7BoKhuzd6s05AcobV2MD9cXthWm5MKfvJ9qlK/9mPc7qzeP2SB91o9GawaFY="
 after_success:
